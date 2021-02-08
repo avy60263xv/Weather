@@ -1,0 +1,238 @@
+$color_white: #ffffff
+$color_yellow: #ffff4d
+$color_black: #1f1f14
+$color_blue_start: #003d66
+$color_blue_end: #4db8ff
+$color_rain: #4DACFF
+$color_white_cloud: #f2f9fe
+$color_grey_cloud: #ccc
+
+*
+  position: relative
+  font-family: 'Oswald', sans-serif , "微軟正黑體"
+
+html,body
+  width: 100%
+  height: 100%
+  margin: 0
+  padding: 0
+  display: flex
+  justify-content: center
+  align-items: center
+  background-color: $color_black
+
+@mixin size($w,$h)
+  width: $w
+  height: $h
+
+label
+  cursor: pointer
+  
+.daybox
+  width: 50%
+  max-width: 400px
+  background-color: $color_white
+  box-shadow: 0px 0px 20px rgba(black,0.3)
+  border-radius: 5px
+  cursor: pointer
+  &:hover
+    .bottom
+      height: 100px
+    .dayweather
+      opacity: 1
+      top: 0px
+  
+.top
+  height: 330px
+  background: linear-gradient(20deg,$color_blue_start,$color_blue_end)
+  background-size: 100% 300%
+  animation: daylight 20s both
+  border-radius: 5px 5px 0px 0px
+  
+  @keyframes daylight
+    0%
+      background-position: 100% 30%
+    100%
+      background-position: 100% 100%
+  .temsvg
+    width: 100%
+    polyline
+      stroke: $color_white
+      stroke-width: 1px
+      fill: none
+      opacity: 0.2
+      
+    text
+      font-size: 10px
+      transform: translateX(-5px) translateY(20px)
+      fill: #e0ebeb
+      opacity: 0
+    circle
+      fill: $color_white
+      opacity: 0.2
+  
+  .moon
+    +size(50px,50px)
+    border-radius: 100%
+    box-shadow: 15px -15px
+    position: absolute
+    left: 50px
+    top: 100px
+    animation: moonmove 20s infinite
+
+    
+  @keyframes moonmove
+    0%
+      box-shadow: 15px -15px $color_yellow
+      transform: translateX(-15px) translateY(15px)  
+    100%
+      box-shadow: -30px 30px #ffff33
+      transform: translateX(30px) translateY(-30px) 
+  
+.cloud
+  +size(100px,36px)
+  position: absolute
+  left: 200px
+  bottom: 50px
+  border-radius: 20px
+  animation: clouddrift 4s infinite
+  background-color: $color_white
+  box-shadow: 0px 0px 20px rgba(black,0.3)
+
+  &:before,&:after
+    content: " "
+    /*border: solid 1px*/
+    display: block
+    +size(50px,50px)
+    border-radius: 100%
+    position: absolute
+    background-color: $color_white
+  &:before
+    left: 16px
+    top: -25px
+  &:after
+    left: 35px
+    top: -20px
+
+@keyframes clouddrift
+  0%
+    transform: translateY(0px)
+  50%
+    transform: translateY(-10px)
+  100%
+    transform: translateY(0px)
+  
+.rain
+  +size(2px,10px)
+  position: absolute
+  left: 45px
+  bottom: 15px
+  animation: raindrop 1.5s infinite 
+  background-color: $color_white
+  
+.rain2
+  left: 70px
+  bottom: 20px
+  animation-delay: -0.4s
+.rain3
+  left: 30px
+  bottom: 20px
+  animation-delay: -0.7s
+  
+@keyframes raindrop
+  0%
+    transform: translateY(0px)
+  100%
+    transform: translateY(50px)
+    opacity: 0
+  
+.bottom
+  height: 100px
+  display: flex
+  justify-content: center
+  box-shadow: 0px 0px 20px rgba(black,0.3)
+  border-radius: 0px 0px 5px 5px
+  height: 10px
+  overflow: hidden
+  transition-duration: 1.5s
+  
+  .dayweather
+    display: inline-block
+    width: calc(100% / 7 - 5px)
+    text-align: center
+    opacity: 0
+    top: 20px
+    transition: 1s
+    h3
+      color: rgba($color_blue_start,0.8)
+      font-size: 8px
+      letter-spacing: 1px
+    svg
+      width: 100%
+      height: 40px
+      max-width: 40px
+      .sun
+        stroke: rgba($color_yellow,0.8)
+        stroke-width: 20px
+        stroke-dasharray: 5px
+        fill: $color_yellow
+      .rain
+        stroke: $color_rain
+        stroke-width: 5px
+      .cloud
+        fill: $color_grey_cloud
+
+.dayweather:nth-child(1)        
+  transition-delay: 0.2s
+.dayweather:nth-child(2)        
+  transition-delay: 0.4s
+.dayweather:nth-child(3)        
+  transition-delay: 0.6s
+.dayweather:nth-child(4)        
+  transition-delay: 0.8s
+.dayweather:nth-child(5)        
+  transition-delay: 1.0s
+.dayweather:nth-child(6)        
+  transition-delay: 1.2s
+.dayweather:nth-child(7)        
+  transition-delay: 1.4s  
+        
+        
+.text_area
+  display: inline-block
+  position: absolute
+  bottom: 25px
+  left: 25px
+  color: $color_white
+  
+  .temperature
+    font-size: 75px
+    line-height: 80px
+  .infos
+    font-size: 13px
+    opacity: 0.5
+  
+    
+.moon,cloud
+  transition: 1s
+.temsvg
+  polyline,circle
+    transition: 0.5s
+  polyline
+    transition: 0.5s 0.3s
+  text
+    transition: 0.5s 0.6s
+  
+    
+#switch_night
+  display: none
+  
+#switch_night:checked+.top
+  .moon,.cloud
+    opacity: 0.2
+  .temsvg
+    polyline,circle,text
+      opacity: 1
+  
+  
+  
